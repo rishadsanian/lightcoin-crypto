@@ -4,20 +4,7 @@
 // Allow withdrawals and deposits into accounts
 // Allow us to retrieve the transaction history of an account (all withdrawals and deposits)
 // Allow us to retrieve the current balance of the account at any time
-// Don't allow withdrawals that exceed the remaining balance of the account
-
-class User {
-  constructor(userId, password) {
-    (this.userId = userId), (this.password = password), this.email;
-    this.accounts = [];
-  }
-  addEmail() {}
-
-  addUser(userId, password) {
-    this.userId = userId;
-    this.password = password;
-  }
-}
+// Don't allow withdrawals that exceed the remaining balance of the account}
 class Account {
   constructor(name) {
     this.name = name;
@@ -25,8 +12,9 @@ class Account {
     this.transactions = [];
     this.transactionCount = 0;
   }
-
-  addAccount() {}
+  getBalance() {
+    return this.balance;
+  }
 }
 
 class Transaction {
