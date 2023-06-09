@@ -1,12 +1,24 @@
 {
   "name": "transactions",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rishadsanian/lightcoin-crypto.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rishadsanian/lightcoin-crypto/issues"
+  },
+  "homepage": "https://github.com/rishadsanian/lightcoin-crypto#readme",
+  "description": "",
+  "dependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0"
+  }
 }

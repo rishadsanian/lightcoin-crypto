@@ -4,7 +4,7 @@
 class User {
 
 
-  
+
 }
 
 
@@ -55,12 +55,12 @@ class Transaction {
         this.activity = "Withdrawal";
       } else this.activity = "Account Check";
     }
-    this.recordTransaction();
+    this.recordTransaction();//is this a callback async??
   }
 }
 // Each account can have many transactions - transaction object -done
 
-// Don't allow withdrawals that exceed the remaining balance of the account - Transactors set /function TODO
+// Don't allow withdrawals that exceed the remaining balance of the account - Transactors set /function done
 
 // Allow withdrawals and deposits into accounts - Transactions - Done
 class Withdrawal extends Transaction {
