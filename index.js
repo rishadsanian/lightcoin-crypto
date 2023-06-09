@@ -1,18 +1,14 @@
 // Allow multiple accounts to be created -Accounts
 // Allow us to retrieve the transaction history of an account (all withdrawals and deposits) done
 // Allow us to retrieve the current balance of the account at any time done
-class User {
-
-
-
-}
-
+class User {}
 
 class Account {
   constructor(name) {
     this.name = name;
     this.balance = 0;
     this.transactions = [];
+    this.transactionCount = 0;
   }
   // get balance() {
   //   console.log(this.balance);
@@ -25,14 +21,22 @@ class Transaction {
     this.activity = activity;
     this.account = account;
     this.amount = amount;
+    this.transactionID = "T";
   }
 
   post() {
     this.account.balance += this.value;
   }
 
+  generateTransactionID() {
+    this.account.transactionCount++;
+    this.transactionID += this.account.transactionCount;
+  }
+
   recordTransaction() {
+    this.generateTransactionID();
     const transaction = {
+      id: this.transactionID,
       account: this.account.name,
       activity: this.activity,
       amount: this.amount,
@@ -45,7 +49,7 @@ class Transaction {
   commit() {
     this.time = new Date();
     if (this.amount > this.account.balance && this.value < 0) {
-      console.log("Insufficient funds");
+      //console.log("Insufficient funds");
       this.activity = "Withdrawal Failed - Insufficient funds";
     } else {
       this.post();
@@ -55,7 +59,7 @@ class Transaction {
         this.activity = "Withdrawal";
       } else this.activity = "Account Check";
     }
-    this.recordTransaction();//is this a callback async??
+    this.recordTransaction(); //is this a callback async??
   }
 }
 // Each account can have many transactions - transaction object -done
@@ -75,7 +79,6 @@ class Deposit extends Transaction {
 }
 
 // DRIVER CODE
-
 
 const myAccount = new Account("Chequing");
 
