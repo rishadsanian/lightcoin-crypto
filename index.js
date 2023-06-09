@@ -1,9 +1,12 @@
 // Allow multiple accounts to be created -Accounts
-// class AllAccounts {
-// constructor (name,balance)
-// this.name = {balance}
+// Allow us to retrieve the transaction history of an account (all withdrawals and deposits) done
+// Allow us to retrieve the current balance of the account at any time done
+class User {
 
-// }
+
+  
+}
+
 
 class Account {
   constructor(name) {
@@ -11,6 +14,10 @@ class Account {
     this.balance = 0;
     this.transactions = [];
   }
+  // get balance() {
+  //   console.log(this.balance);
+  //   return this.balance;
+  // }
 }
 
 class Transaction {
@@ -19,33 +26,47 @@ class Transaction {
     this.account = account;
     this.amount = amount;
   }
-  commit() {
+
+  post() {
     this.account.balance += this.value;
+  }
 
-    if (this.value > 0) {
-      this.activity = "Deposit";
-    } else if (this.value < 0) {
-      this.activity = "Withdrawal";
-    } else this.activity = "Account Check";
-
+  recordTransaction() {
     const transaction = {
+      account: this.account.name,
       activity: this.activity,
       amount: this.amount,
+      date: this.time,
     };
 
     this.account.transactions.push(transaction);
   }
-}
-// Each account can have many transactions - transaction object -
-// Allow withdrawals and deposits into accounts - Transactions - Done
-// Don't allow withdrawals that exceed the remaining balance of the account - Transactors set /function
 
+  commit() {
+    this.time = new Date();
+    if (this.amount > this.account.balance && this.value < 0) {
+      console.log("Insufficient funds");
+      this.activity = "Withdrawal Failed - Insufficient funds";
+    } else {
+      this.post();
+      if (this.value > 0) {
+        this.activity = "Deposit";
+      } else if (this.value < 0) {
+        this.activity = "Withdrawal";
+      } else this.activity = "Account Check";
+    }
+    this.recordTransaction();
+  }
+}
+// Each account can have many transactions - transaction object -done
+
+// Don't allow withdrawals that exceed the remaining balance of the account - Transactors set /function TODO
+
+// Allow withdrawals and deposits into accounts - Transactions - Done
 class Withdrawal extends Transaction {
   get value() {
     return this.amount * -1;
   }
-
-  //this.transaction.type = "Withdrawal";
 }
 class Deposit extends Transaction {
   get value() {
@@ -53,20 +74,22 @@ class Deposit extends Transaction {
   }
 }
 
-// Allow us to retrieve the transaction history of an account (all withdrawals and deposits) get/
-// Allow us to retrieve the current balance of the account at any time get
+// DRIVER CODE
 
-// DRIVER CODE BELOW
-// We use the code below to "drive" the application logic above and make sure it's working as expected
 
 const myAccount = new Account("Chequing");
 
+console.log(myAccount.name);
 console.log("Starting Balance:", myAccount.balance);
-
-const t1 = new Deposit(120.0, myAccount);
+const t1 = new Deposit(100.0, myAccount);
 t1.commit();
 const t2 = new Withdrawal(50.0, myAccount);
 t2.commit();
+const t3 = new Withdrawal(1000, myAccount);
+t3.commit();
+const t4 = new Withdrawal(0, myAccount);
+t4.commit();
+
+console.log(myAccount.transactions);
 
 console.log("Ending Balance:", myAccount.balance);
-console.log(myAccount.transactions);
