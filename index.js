@@ -1,8 +1,23 @@
-// Allow multiple accounts to be created -Accounts
-// Allow us to retrieve the transaction history of an account (all withdrawals and deposits) done
-// Allow us to retrieve the current balance of the account at any time done
-class User {}
+//nod
+// Allow multiple accounts to be created
+// Each account can have many transactions
+// Allow withdrawals and deposits into accounts
+// Allow us to retrieve the transaction history of an account (all withdrawals and deposits)
+// Allow us to retrieve the current balance of the account at any time
+// Don't allow withdrawals that exceed the remaining balance of the account
 
+class User {
+  constructor(userId, password) {
+    (this.userId = userId), (this.password = password), this.email;
+    this.accounts = [];
+  }
+  addEmail() {}
+
+  addUser(userId, password) {
+    this.userId = userId;
+    this.password = password;
+  }
+}
 class Account {
   constructor(name) {
     this.name = name;
@@ -10,10 +25,8 @@ class Account {
     this.transactions = [];
     this.transactionCount = 0;
   }
-  // get balance() {
-  //   console.log(this.balance);
-  //   return this.balance;
-  // }
+
+  addAccount() {}
 }
 
 class Transaction {
@@ -22,6 +35,10 @@ class Transaction {
     this.account = account;
     this.amount = amount;
     this.transactionID = "T";
+  }
+
+  isAllowed() {
+    return true;
   }
 
   post() {
@@ -40,40 +57,35 @@ class Transaction {
       account: this.account.name,
       activity: this.activity,
       amount: this.amount,
-      date: this.time,
+      date: new Date(),
     };
 
     this.account.transactions.push(transaction);
   }
 
   commit() {
-    this.time = new Date();
-    if (this.amount > this.account.balance && this.value < 0) {
-      //console.log("Insufficient funds");
+    if (!this.isAllowed()) {
       this.activity = "Withdrawal Failed - Insufficient funds";
-    } else {
-      this.post();
-      if (this.value > 0) {
-        this.activity = "Deposit";
-      } else if (this.value < 0) {
-        this.activity = "Withdrawal";
-      } else this.activity = "Account Check";
     }
-    this.recordTransaction(); //is this a callback async??
+    if (this.isAllowed()) {
+      this.post();
+    }
+    this.recordTransaction();
   }
 }
-// Each account can have many transactions - transaction object -done
 
-// Don't allow withdrawals that exceed the remaining balance of the account - Transactors set /function done
-
-// Allow withdrawals and deposits into accounts - Transactions - Done
 class Withdrawal extends Transaction {
   get value() {
+    this.activity = "Withdrawal";
     return this.amount * -1;
+  }
+  isAllowed() {
+    return this.account.balance >= this.amount;
   }
 }
 class Deposit extends Transaction {
   get value() {
+    this.activity = "Deposit";
     return this.amount;
   }
 }
